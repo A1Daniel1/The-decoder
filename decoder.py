@@ -3,17 +3,21 @@ import sys
 class Decoder:
     def __init__(self):
         self.data = None
+        self.new = ""
     
     def decode(self, data):
         self.data = data
         for char in data:
-            print(f"Decoding character: {char}")
-            print(ord(char))
-
-        return self.data   
+            if ord(char) < 32 or ord(char) > 126:
+                print(f"Invalid character: {char} (ASCII: {ord(char)})")
+                continue
+            else:
+                self.new += (chr(ord(char) - 7))
+    
+        return self.data  
 
     def __str__(self):
-        return f"Decoder(data={self.data})"
+        return f"Decoder(data={self.new})"
 
 def main():
     # printable ascci characters
@@ -28,7 +32,7 @@ def main():
                 sys.exit(1)
             
             decoder.decode(data)
-            print("Decoded data:", decoder.data)
+            print("Decoded data:", decoder.new)
         except EOFError:
             print("\nExiting...")
             sys.exit(0)
